@@ -41,6 +41,7 @@ def fertig_action():
 	einsatz.write("Koordinaten: " + str(entry_text) + ", " + str(entry_text2) + "\n")
 	einsatz.write("AAO: Default")
 	einsatz.close()
+	action_get_speicher_dialog()
 
 	
 
@@ -52,6 +53,12 @@ Date: 09.09.19\n\
 Version: 0.0.1\n\
 ************************"
 	messagebox.showinfo(message=m_text, title = "Infos")
+	
+def action_get_speicher_dialog():
+	m_text = "\
+Speichern erfolgreich\n\
+"
+	messagebox.showinfo(message=m_text, title = "Speichern")
 	
 
 # Fenster erstellen
