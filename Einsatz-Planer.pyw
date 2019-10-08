@@ -14,13 +14,13 @@ cfg.read('config.ini')
 
 # Button actionen
 def fertig_action():
-	einsatz = open("Einsatz/Einsatz.txt","w")
-	entry_text = einsatznummer.get()
-	einsatz.write("Einsatznummer: " + str(entry_text) + "\n")
+	einsatznummer_text = einsatznummer.get()
+	meldebild_text = meldebild.get()
+	einsatz = open("Einsatz/Einsatz " + str(einsatznummer_text) + " (" + str(meldebild_text) + ").txt","w")
+	einsatz.write("Einsatznummer: " + str(einsatznummer_text) + "\n")
 	entry_text = variable.get()
 	einsatz.write("Stichwort: " + str(entry_text) + "\n")
-	entry_text = meldebild.get()
-	einsatz.write("Meldebild: " + str(entry_text) + "\n")
+	einsatz.write("Meldebild: " + str(meldebild_text) + "\n")
 	entry_text = bemerkung.get()
 	einsatz.write("Bemerkung: " + str(entry_text) + "\n")
 	entry_text = ort.get()
