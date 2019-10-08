@@ -65,6 +65,7 @@ Speichern erfolgreich\n\
 fenster = Tk()
 fenster.title(cfg.get('Einstellung', 'title'))
 fenster.geometry("400x450")
+fenster.iconbitmap("alert.ico")
 
 # Menüleiste erstellen 
 menuleiste = Menu(fenster)
