@@ -1,5 +1,6 @@
 # Setup
 from tkinter import *
+from tkinter import filedialog
 from tkinter import messagebox
 from configparser import ConfigParser
 
@@ -18,7 +19,7 @@ def fertig_action():
 	meldebild_text = meldebild.get()
 	einsatz = open("Einsatz/Einsatz " + str(einsatznummer_text) + " (" + str(meldebild_text) + ").txt","w")
 	einsatz.write("Einsatznummer: " + str(einsatznummer_text) + "\n")
-	entry_text = variable.get()
+	entry_text = stichwort_var.get()
 	einsatz.write("Stichwort: " + str(entry_text) + "\n")
 	einsatz.write("Meldebild: " + str(meldebild_text) + "\n")
 	entry_text = bemerkung.get()
@@ -42,8 +43,36 @@ def fertig_action():
 	einsatz.write("AAO: Default")
 	einsatz.close()
 	action_get_speicher_dialog()
-
 	
+def datei_open_action():
+	datei = filedialog.askopenfilename(initialdir= "./Einsatz", filetypes= (("Text Dateien","*.txt"),("Alle Dateien","*.*")))
+	text = open(datei,'r')
+	lines = text.readlines()
+	einsatznummer.delete(0,END)
+	einsatznummer.insert(10,lines[0] [15:-1])
+	stichwort_var.set(lines[1] [11:-1])
+	meldebild.delete(0,END)
+	meldebild.insert(10,lines[2] [11:-1])
+	bemerkung.delete(0,END)
+	bemerkung.insert(10,lines[3] [11:-1])
+	ort.delete(0,END)
+	ort.insert(10,lines[4] [5:-1])
+	ortsteil.delete(0,END)
+	ortsteil.insert(10,lines[5] [10:-1])
+	strasse_teiler = lines[6].split()
+	strasse.delete(0,END)
+	strasse.insert(10,strasse_teiler[1])
+	hausnummer.delete(0,END)
+	hausnummer.insert(10,strasse_teiler[2])
+	objekt.delete(0,END)
+	objekt.insert(10,lines[8] [8:-1])
+	kordinaten_teiler = lines[12].split()
+	breitengrad.delete(0,END)
+	breitengrad.insert(10,kordinaten_teiler[1][:-1])
+	längengrad.delete(0,END)
+	längengrad.insert(10,kordinaten_teiler[2])
+
+
 
 def action_get_info_dialog():
 	m_text = "\
@@ -64,7 +93,7 @@ Speichern erfolgreich\n\
 # Fenster erstellen
 fenster = Tk()
 fenster.title(cfg.get('Einstellung', 'title'))
-fenster.geometry("400x450")
+fenster.geometry("400x490")
 fenster.iconbitmap("alert.ico")
 
 # Menüleiste erstellen 
@@ -155,10 +184,10 @@ OptionList = [
 "H ZUG 1 Y",
 "H ZUG 2 Y"
 ] 
-variable = StringVar(fenster)
-variable.set(OptionList[0])
+stichwort_var = StringVar(fenster)
+stichwort_var.set(OptionList[0])
 
-stichwort = OptionMenu(fenster, variable, *OptionList)
+stichwort = OptionMenu(fenster, stichwort_var, *OptionList)
 stichwort.config(width=25, font=('Helvetica', 10))
 
 
@@ -175,8 +204,12 @@ objekt = Entry(fenster, bd=5, width=40)
 breitengrad = Entry(fenster, bd=5, width=40)
 längengrad = Entry(fenster, bd=5, width=40)
 
+
+
+
 # Buttons
 fertig_button = Button(fenster, text="Speichern", command=fertig_action)
+open_button = Button(fenster, text="   Öffnen   ", command=datei_open_action)
 exit_button = Button(fenster, text="Beenden", command=fenster.quit)
 
 # Fenster Aufbau
@@ -214,8 +247,9 @@ längengrad_label.grid(row = 14, column = 0)
 längengrad.grid(row = 14, column = 1)
 aao_label.grid(row = 15, column = 0)
 aao.grid(row = 15, column = 1)
-fertig_button.grid(row = 16, column = 0)
-exit_button.grid(row = 16, column = 1)
+open_button.grid(row = 16, column = 0)
+fertig_button.grid(row = 17, column = 0)
+exit_button.grid(row = 17, column = 1)
  
 
  
